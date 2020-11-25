@@ -20,4 +20,4 @@ sudo apt get install libnm0 wxpython gir1.2-nm-1.0
 git clone https://github.com/mickenordin/wireguide.git
 cd wireguide/
 ./wireguide
-``
+```
