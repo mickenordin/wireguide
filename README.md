@@ -21,3 +21,9 @@ git clone https://github.com/mickenordin/wireguide.git
 cd wireguide/
 ./wireguide
 ```
+## Screenshots
+![No config](https://github.com/mickenordin/wireguide/blob/master/screenshots/scrot0.png?raw=true)
+![Open dialog](https://github.com/mickenordin/wireguide/blob/master/screenshots/scrot1.png?raw=true)
+![Activate](https://github.com/mickenordin/wireguide/blob/master/screenshots/scrot2.png?raw=true)
+![Deactivate](https://github.com/mickenordin/wireguide/blob/master/screenshots/scrot3.png?raw=true)
+
