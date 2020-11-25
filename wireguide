@@ -51,9 +51,8 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         self.make_menu_bar()
 
         # and a status bar
-        self.CreateStatusBar()
-        self.status = str(self.num_aconns) + " active connection(s)"
-        self.SetStatusText(self.status)
+        self.statusbar = self.CreateStatusBar(style = wx.BORDER_NONE)
+        self.set_status()
 
         self.timer = wx.Timer(self)
         self.count = 0
@@ -61,6 +60,10 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         self.Bind(wx.EVT_TIMER, self.do_on_timer)
         self.Bind(wx.EVT_PAINT, self.timing)
         self.Show()
+
+    def set_status(self):
+        status = str(self.num_aconns) + " active connection(s)"
+        self.statusbar.SetStatusText(status)
 
     def timing(self, event):  # pylint: disable=unused-argument
         """
@@ -80,6 +83,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
             self.num_aconns = len(self.active_conns)
             self.conns = self.get_wg_conns()
             self.num_conns = len(self.conns)
+            self.set_status()
             self.write_to_sizer()
             self.count = 0
 
@@ -125,7 +129,6 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
                 "Please choose a config file from the file menu (CTRL+O).")
             self.sizer.Add(hd0, 0, wx.ALIGN_CENTER)
             self.sizer.Add(missingstr, 0, wx.ALIGN_LEFT)
-
         self.sizer.Layout()
 
     def get_next_int_name(self):
