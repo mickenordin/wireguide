@@ -22,8 +22,7 @@ cd wireguide/
 ./wireguide
 ```
 ## Screenshots
-![No config](https://github.com/mickenordin/wireguide/blob/master/screenshots/scrot0.png?raw=true)
-![Open dialog](https://github.com/mickenordin/wireguide/blob/master/screenshots/scrot1.png?raw=true)
-![Activate](https://github.com/mickenordin/wireguide/blob/master/screenshots/scrot2.png?raw=true)
-![Deactivate](https://github.com/mickenordin/wireguide/blob/master/screenshots/scrot3.png?raw=true)
-
+![No config](https://raw.githubusercontent.com/mickenordin/wireguide/main/screenshots/scrot0.png)
+![Open dialog](https://raw.githubusercontent.com/mickenordin/wireguide/main/screenshots/scrot1.png)
+![Activate](https://raw.githubusercontent.com/mickenordin/wireguide/main/screenshots/scrot2.png)
+![Deactivate](https://raw.githubusercontent.com/mickenordin/wireguide/main/screenshots/scrot3.png)
