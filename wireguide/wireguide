@@ -24,7 +24,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)
 
-        self.version = 0.0.2
+        self.version = "0.0.3"
 
         # Get active conns from NetworkManager
         self.client = NM.Client.new(None)
@@ -76,7 +76,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         info = wx.adv.AboutDialogInfo()
         info.SetIcon(wx.Icon('logo.png', wx.BITMAP_TYPE_PNG))
         info.SetName('WireGUIde')
-        info.SetVersion(str(self.version))
+        info.SetVersion(self.version)
         info.SetDescription(about)
         info.SetCopyright('(C) 2020 Mikael Nordin')
         info.SetWebSite('https://github.com/mickenordin')
