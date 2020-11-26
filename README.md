@@ -18,6 +18,9 @@ Thanks to Jan Bodnar of zetcode.com for the valuable tutorial on wxPython dialog
 ```
 pip install wireguide
 ```
+## Packaging
+![pypi](https://img.shields.io/pypi/v/WireGUIde)
+
 ## Screenshots
 ![No config](https://raw.githubusercontent.com/mickenordin/wireguide/main/screenshots/scrot0.png)
 ![Open dialog](https://raw.githubusercontent.com/mickenordin/wireguide/main/screenshots/scrot1.png)
