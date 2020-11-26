@@ -46,7 +46,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         self.make_menu_bar()
 
         # and a status bar
-        self.statusbar = self.CreateStatusBar(style = wx.BORDER_NONE)
+        self.statusbar = self.CreateStatusBar(style=wx.BORDER_NONE)
         self.set_status()
 
         self.timer = wx.Timer(self)
@@ -56,90 +56,60 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         self.Bind(wx.EVT_PAINT, self.timing)
         self.Show()
 
-    def set_status(self):
-        status = str(len(self.active_conns)) + " active connection(s)"
-        self.statusbar.SetStatusText(status)
+    def about_clicked(self, event):  # pylint: disable=unused-argument
+        """Display an About Dialog"""
+        about = "WireGUIde is a GUI for WireGuard."
+        lic_text = """
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-    def timing(self, event):  # pylint: disable=unused-argument
-        """
-        Start a timer
-        """
-        self.timer.Start(20)
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-    def do_on_timer(self, event):  # pylint: disable=unused-argument
-        """
-        Do stuff to redraw the  window when the timer times out
-        Ths is because connections might change outside of WireGUIde
-        """
-        self.count += 1
-        if self.count == 5:
-            self.client.reload_connections_async()
-            self.active_conns = self.get_wg_aconns()
-            self.conns = self.get_wg_conns()
-            self.set_status()
-            self.write_to_sizer()
-            self.count = 0
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>."""
+        #wx.MessageBox(about, "About WireGUIde" ,wx.OK | wx.ICON_INFORMATION)
+        info = wx.adv.AboutDialogInfo()
+        info.SetIcon(wx.Icon('logo.png', wx.BITMAP_TYPE_PNG))
+        info.SetName('WireGUIde')
+        info.SetVersion(str(self.version))
+        info.SetDescription(about)
+        info.SetCopyright('(C) 2020 Mikael Nordin')
+        info.SetWebSite('https://github.com/mickenordin')
+        info.SetLicence(lic_text)
+        info.AddDeveloper('Mikael Nordin')
+        info.AddDocWriter('Mikael Nordin')
+        info.AddArtist('Mikael Nordin')
 
-    def write_to_sizer(self):
-        """
-        We use the BoxSizer to hold our configs
-        This method redraws the sizer
-        """
-        self.sizer.Clear(delete_windows=True)
-        if len(self.active_conns) > 0:
-            hd1 = wx.StaticText(self.pnl)
-            hd1.SetLabelMarkup("<b>Active connections</b>")
-            self.sizer.Add(hd1, 0, wx.ALIGN_CENTER)
-            for conn in self.active_conns:
-                statstr = wx.StaticText(self.pnl)
-                info = get_info_as_text(conn)
-                statstr.SetLabelMarkup(info)
-                self.sizer.Add(statstr,
-                               wx.SizerFlags().Border(wx.TOP | wx.LEFT, 25))
-                dbtn = wx.Button(self.pnl, -1, "Deactivate")
-                self.sizer.Add(dbtn, 0, wx.ALIGN_CENTER)
-                self.Bind(wx.EVT_BUTTON, lambda event: self.deactivate_button_clicked(event, conn), dbtn)
-        if len(self.inactive_conns) > 0:
-            hd2 = wx.StaticText(self.pnl)
-            hd2.SetLabelMarkup("<b>Imported configs</b>")
-            self.sizer.Add(hd2, 0, wx.ALIGN_CENTER)
-            if self.inactive_conns:
-                for conn in self.inactive_conns:
-                    statstr = wx.StaticText(self.pnl)
-                    info = get_info_as_text(conn)
-                    statstr.SetLabelMarkup(info)
-                    self.sizer.Add(
-                        statstr,
-                        wx.SizerFlags().Border(wx.TOP | wx.LEFT, 25))
-                    btn = wx.Button(self.pnl, -1, "Activate")
-                    self.sizer.Add(btn, 0, wx.ALIGN_CENTER)
-                    self.Bind(wx.EVT_BUTTON, lambda event: self.activate_button_clicked(event, conn), btn)
-        if (len(self.active_conns) == 0) and (len(self.inactive_conns) == 0):
-            hd0 = wx.StaticText(self.pnl)
-            hd0.SetLabelMarkup("<b>No configs available</b>")
-            missingstr = wx.StaticText(self.pnl)
-            missingstr.SetLabelMarkup(
-                "Please choose a config file from the file menu (CTRL+O).")
-            self.sizer.Add(hd0, 0, wx.ALIGN_CENTER)
-            self.sizer.Add(missingstr, 0, wx.ALIGN_LEFT)
-        self.sizer.Layout()
+        wx.adv.AboutBox(info)
 
-    def get_next_int_name(self):
+    def activate_button_clicked(self, event, conn):  # pylint: disable=unused-argument
         """
-        Determins what we should call the next interface
+        This activates an imported config
         """
-        temp = []
-        for conn in self.conns:
-            temp.append(re.findall(r'\d+', conn.get_interface_name()))
-        for conn in self.inactive_conns:
-            temp.append(re.findall(r'\d+', conn.get_interface_name()))
-        numbers = [int(item) for sublist in temp for item in sublist]
-        if not numbers:
-            num = 0
-        else:
-            numbers.sort(reverse=True)
-            num = numbers[0] + 1
-        return "wg" + str(num)
+        print(conn.get_id())
+        self.client.add_connection_async(conn, False, None, self.add_callback,
+                                         None)
+        self.remove_inactive(conn)
+
+    def add_callback(self, client, result, data):  # pylint: disable=unused-argument
+        """
+        This is here to let us know if the connection was successful or not
+        """
+        try:
+            client.add_connection_finish(result)
+            print(
+                "The connection profile has been successfully added to NetworkManager."
+            )
+        except Exception as exception:  # pylint: disable=broad-except
+            sys.stderr.write("Error: %s\n" % exception)
+        self.active_conns = self.get_wg_aconns()
+        self.conns = self.get_wg_conns()
+        self.write_to_sizer()
 
     def create_conn_from_file(self, pathname):
         """
@@ -185,47 +155,6 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
             wx.LogError("Cannot open file '%s'." % filename)
             return None
 
-    def make_menu_bar(self):
-        """
-        A menu bar is composed of menus, which are composed of menu items.
-        This method builds a set of menus and binds handlers to be called
-        when the menu item is selected.
-        """
-
-        file_menu = wx.Menu()
-        file_chooser_item = file_menu.Append(-1, "&Open...\tCtrl-O",
-                                             "Select WireGuard config file")
-        file_menu.AppendSeparator()
-        exit_item = file_menu.Append(wx.ID_EXIT)
-
-        help_menu = wx.Menu()
-        about_item = help_menu.Append(wx.ID_ABOUT)
-
-        menu_bar = wx.MenuBar()
-        menu_bar.Append(file_menu, "&File")
-        menu_bar.Append(help_menu, "&Help")
-
-        self.SetMenuBar(menu_bar)
-
-        self.Bind(wx.EVT_MENU, self.file_chooser_clicked, file_chooser_item)
-        self.Bind(wx.EVT_MENU, self.exit_clicked, exit_item)
-        self.Bind(wx.EVT_MENU, self.about_clicked, about_item)
-
-    def activate_button_clicked(self, event, conn):  # pylint: disable=unused-argument
-        """
-        This activates an imported config
-        """
-        print(conn.get_id())
-        self.client.add_connection_async(conn, False, None, self.add_callback,
-                                         None)
-        self.remove_inactive(conn)
-
-    def remove_inactive(self,conn):
-        for i in range(len(self.inactive_conns)):
-            print(i,  self.inactive_conns[i].get_id(), conn.get_id())
-            if self.inactive_conns[i].get_id() == conn.get_id():
-                self.inactive_conns.pop(i)
-
     def deactivate_button_clicked(self, event, conn):  # pylint: disable=unused-argument
         """
         This deactivates an active config
@@ -250,20 +179,19 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         self.conns = self.get_wg_conns()
         self.write_to_sizer()
 
-    def add_callback(self, client, result, data):  # pylint: disable=unused-argument
+    def do_on_timer(self, event):  # pylint: disable=unused-argument
         """
-        This is here to let us know if the connection was successful or not
+        Do stuff to redraw the  window when the timer times out
+        Ths is because connections might change outside of WireGUIde
         """
-        try:
-            client.add_connection_finish(result)
-            print(
-                "The connection profile has been successfully added to NetworkManager."
-            )
-        except Exception as exception:  # pylint: disable=broad-except
-            sys.stderr.write("Error: %s\n" % exception)
-        self.active_conns = self.get_wg_aconns()
-        self.conns = self.get_wg_conns()
-        self.write_to_sizer()
+        self.count += 1
+        if self.count == 5:
+            self.client.reload_connections_async()
+            self.active_conns = self.get_wg_aconns()
+            self.conns = self.get_wg_conns()
+            self.set_status()
+            self.write_to_sizer()
+            self.count = 0
 
     def exit_clicked(self, event):  # pylint: disable=unused-argument
         """
@@ -290,6 +218,23 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
             self.inactive_conns.append(new_conn)
             self.write_to_sizer()
 
+    def get_next_int_name(self):
+        """
+        Determins what we should call the next interface
+        """
+        temp = []
+        for conn in self.conns:
+            temp.append(re.findall(r'\d+', conn.get_interface_name()))
+        for conn in self.inactive_conns:
+            temp.append(re.findall(r'\d+', conn.get_interface_name()))
+        numbers = [int(item) for sublist in temp for item in sublist]
+        if not numbers:
+            num = 0
+        else:
+            numbers.sort(reverse=True)
+            num = numbers[0] + 1
+        return "wg" + str(num)
+
     def get_wg_aconns(self):
         """
         Reads all active wireguard connections from NetworkManager
@@ -314,36 +259,111 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
                 mconns.append(conn)
         return mconns
 
-    def about_clicked(self, event):  # pylint: disable=unused-argument
-        """Display an About Dialog"""
-        about = "WireGUIde is a GUI for WireGuard."
-        lic_text = """
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    def make_menu_bar(self):
+        """
+        A menu bar is composed of menus, which are composed of menu items.
+        This method builds a set of menus and binds handlers to be called
+        when the menu item is selected.
+        """
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+        file_menu = wx.Menu()
+        file_chooser_item = file_menu.Append(-1, "&Open...\tCtrl-O",
+                                             "Select WireGuard config file")
+        file_menu.AppendSeparator()
+        exit_item = file_menu.Append(wx.ID_EXIT)
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>."""
-        #wx.MessageBox(about, "About WireGUIde" ,wx.OK | wx.ICON_INFORMATION)
-        info = wx.adv.AboutDialogInfo()
-        info.SetIcon(wx.Icon('logo.png', wx.BITMAP_TYPE_PNG))
-        info.SetName('WireGUIde')
-        info.SetVersion(str(self.version))
-        info.SetDescription(about)
-        info.SetCopyright('(C) 2020 Mikael Nordin')
-        info.SetWebSite('https://github.com/mickenordin')
-        info.SetLicence(lic_text)
-        info.AddDeveloper('Mikael Nordin')
-        info.AddDocWriter('Mikael Nordin')
-        info.AddArtist('Mikael Nordin')
+        help_menu = wx.Menu()
+        about_item = help_menu.Append(wx.ID_ABOUT)
 
-        wx.adv.AboutBox(info)
+        menu_bar = wx.MenuBar()
+        menu_bar.Append(file_menu, "&File")
+        menu_bar.Append(help_menu, "&Help")
+
+        self.SetMenuBar(menu_bar)
+
+        self.Bind(wx.EVT_MENU, self.file_chooser_clicked, file_chooser_item)
+        self.Bind(wx.EVT_MENU, self.exit_clicked, exit_item)
+        self.Bind(wx.EVT_MENU, self.about_clicked, about_item)
+
+    def remove_inactive(self, conn):
+        """
+        Remove the inactive connection from the array
+        """
+        for i in range(len(self.inactive_conns)):
+            if self.inactive_conns[i].get_id() == conn.get_id():
+                self.inactive_conns.pop(i)
+
+    def set_status(self):
+        """
+        Update the status bar
+        """
+        status = str(len(self.active_conns)) + " active connection(s)"
+        self.statusbar.SetStatusText(status)
+
+    def timing(self, event):  # pylint: disable=unused-argument
+        """
+        Start a timer
+        """
+        self.timer.Start(20)
+
+    def write_to_sizer(self):
+        """
+        We use the BoxSizer to hold our configs
+        This method redraws the sizer
+        """
+        self.sizer.Clear(delete_windows=True)
+        if len(self.active_conns) > 0:
+            hd1 = wx.StaticText(self.pnl)
+            hd1.SetLabelMarkup("<b>Active connections</b>")
+            self.sizer.Add(hd1, 0, wx.ALIGN_CENTER)
+            for conn in self.active_conns:
+                statstr = wx.StaticText(self.pnl)
+                info = get_info_as_text(conn)
+                statstr.SetLabelMarkup(info)
+                self.sizer.Add(statstr,
+                               wx.SizerFlags().Border(wx.TOP | wx.LEFT, 25))
+                dbtn = wx.Button(self.pnl, -1, "Deactivate")
+                self.sizer.Add(dbtn, 0, wx.ALIGN_CENTER)
+                self.Bind(wx.EVT_BUTTON,
+                          lambda event, mconn=conn: self.
+                          deactivate_button_clicked(event, mconn),
+                          dbtn)
+        if len(self.inactive_conns) > 0:
+            hd2 = wx.StaticText(self.pnl)
+            hd2.SetLabelMarkup("<b>Imported configs</b>")
+            self.sizer.Add(hd2, 0, wx.ALIGN_CENTER)
+            if self.inactive_conns:
+                for conn in self.inactive_conns:
+                    statstr = wx.StaticText(self.pnl)
+                    info = get_info_as_text(conn)
+                    statstr.SetLabelMarkup(info)
+                    self.sizer.Add(
+                        statstr,
+                        wx.SizerFlags().Border(wx.TOP | wx.LEFT, 25))
+                    btn = wx.Button(self.pnl, -1, "Activate")
+                    self.sizer.Add(btn, 0, wx.ALIGN_CENTER)
+                    self.Bind(wx.EVT_BUTTON,
+                              lambda event, mconn=conn: self.
+                              activate_button_clicked(event, mconn),
+                              btn)
+        if (len(self.active_conns) == 0) and (len(self.inactive_conns) == 0):
+            hd0 = wx.StaticText(self.pnl)
+            hd0.SetLabelMarkup("<b>No configs available</b>")
+            missingstr = wx.StaticText(self.pnl)
+            missingstr.SetLabelMarkup(
+                "Please choose a config file from the file menu (CTRL+O).")
+            self.sizer.Add(hd0, 0, wx.ALIGN_CENTER)
+            self.sizer.Add(missingstr, 0, wx.ALIGN_LEFT)
+        self.sizer.Layout()
+
+
+def get_inactive_conns():
+    """
+    TODO: Not implemented yet
+    """
+    minactive_conns = []
+    #return empty array for now, we cant read configs from stash yet
+    return minactive_conns
 
 
 def get_info_as_text(aconn):
@@ -361,15 +381,6 @@ def get_info_as_text(aconn):
     info += "interface name: " + miname + '\n'
     info += "uuid: " + muuid + '\n'
     return info
-
-
-def get_inactive_conns():
-    """
-    TODO: Not implemented yet
-    """
-    minactive_conns = []
-    #return empty array for now, we cant read configs from stash yet
-    return minactive_conns
 
 
 if __name__ == '__main__':
