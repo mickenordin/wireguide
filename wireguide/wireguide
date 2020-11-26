@@ -24,7 +24,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)
 
-        self.version = "0.0.3"
+        self.version = "0.0.4"
 
         # Get active conns from NetworkManager
         self.client = NM.Client.new(None)
@@ -74,7 +74,9 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
     along with this program.  If not, see <https://www.gnu.org/licenses/>."""
         #wx.MessageBox(about, "About WireGUIde" ,wx.OK | wx.ICON_INFORMATION)
         info = wx.adv.AboutDialogInfo()
-        info.SetIcon(wx.Icon('logo.png', wx.BITMAP_TYPE_PNG))
+        logo = self.get_logo_path()
+        if logo:
+            info.SetIcon(wx.Icon(logo, wx.BITMAP_TYPE_PNG))
         info.SetName('WireGUIde')
         info.SetVersion(self.version)
         info.SetDescription(about)
@@ -381,6 +383,22 @@ def get_info_as_text(aconn):
     info += "interface name: " + miname + '\n'
     info += "uuid: " + muuid + '\n'
     return info
+
+
+def get_logo_path():
+    """
+    Try to find a logo
+    """
+    site_packages = next(p for p in sys.path if 'site-packages' in p)
+    logo_name = "logo.png"
+    image = site_packages + "/wireguide/" + logo_name
+    ret = None
+    if os.path.isfile(image):
+        ret = image
+    elif os.path.isfile(logo_name):
+        ret = logo_name
+
+    return ret
 
 
 if __name__ == '__main__':
