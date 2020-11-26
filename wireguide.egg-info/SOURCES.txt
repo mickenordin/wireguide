@@ -1,0 +1,8 @@
+README.md
+setup.py
+wireguide/__init__.py
+wireguide/wireguide
+wireguide.egg-info/PKG-INFO
+wireguide.egg-info/SOURCES.txt
+wireguide.egg-info/dependency_links.txt
+wireguide.egg-info/top_level.txt
