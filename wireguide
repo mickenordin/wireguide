@@ -28,16 +28,11 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
 
         # Get active conns from NetworkManager
         self.client = NM.Client.new(None)
-        self.client.checkpoint_adjust_rollback_timeout(
-            "/org/freedesktop/NetworkManager", 60, None, None, None)
         self.conns = self.get_wg_conns()
-        self.num_conns = len(self.conns)
         self.active_conns = self.get_wg_aconns()
-        self.num_aconns = len(self.active_conns)
 
         # Set up for loaded configs
         self.inactive_conns = get_inactive_conns()
-        self.num_inactive_conns = len(self.inactive_conns)
 
         # create a panel in the frame
         self.pnl = wx.Panel(self)
@@ -62,7 +57,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         self.Show()
 
     def set_status(self):
-        status = str(self.num_aconns) + " active connection(s)"
+        status = str(len(self.active_conns)) + " active connection(s)"
         self.statusbar.SetStatusText(status)
 
     def timing(self, event):  # pylint: disable=unused-argument
@@ -80,9 +75,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         if self.count == 5:
             self.client.reload_connections_async()
             self.active_conns = self.get_wg_aconns()
-            self.num_aconns = len(self.active_conns)
             self.conns = self.get_wg_conns()
-            self.num_conns = len(self.conns)
             self.set_status()
             self.write_to_sizer()
             self.count = 0
@@ -93,7 +86,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         This method redraws the sizer
         """
         self.sizer.Clear(delete_windows=True)
-        if self.num_aconns > 0:
+        if len(self.active_conns) > 0:
             hd1 = wx.StaticText(self.pnl)
             hd1.SetLabelMarkup("<b>Active connections</b>")
             self.sizer.Add(hd1, 0, wx.ALIGN_CENTER)
@@ -105,8 +98,8 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
                                wx.SizerFlags().Border(wx.TOP | wx.LEFT, 25))
                 dbtn = wx.Button(self.pnl, -1, "Deactivate")
                 self.sizer.Add(dbtn, 0, wx.ALIGN_CENTER)
-                self.Bind(wx.EVT_BUTTON, self.deactivate_button_clicked, dbtn)
-        if self.num_inactive_conns > 0:
+                self.Bind(wx.EVT_BUTTON, lambda event: self.deactivate_button_clicked(event, conn), dbtn)
+        if len(self.inactive_conns) > 0:
             hd2 = wx.StaticText(self.pnl)
             hd2.SetLabelMarkup("<b>Imported configs</b>")
             self.sizer.Add(hd2, 0, wx.ALIGN_CENTER)
@@ -118,10 +111,10 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
                     self.sizer.Add(
                         statstr,
                         wx.SizerFlags().Border(wx.TOP | wx.LEFT, 25))
-                btn = wx.Button(self.pnl, -1, "Activate")
-                self.sizer.Add(btn, 0, wx.ALIGN_CENTER)
-                self.Bind(wx.EVT_BUTTON, self.activate_button_clicked, btn)
-        if (self.num_aconns == 0) and (self.num_inactive_conns == 0):
+                    btn = wx.Button(self.pnl, -1, "Activate")
+                    self.sizer.Add(btn, 0, wx.ALIGN_CENTER)
+                    self.Bind(wx.EVT_BUTTON, lambda event: self.activate_button_clicked(event, conn), btn)
+        if (len(self.active_conns) == 0) and (len(self.inactive_conns) == 0):
             hd0 = wx.StaticText(self.pnl)
             hd0.SetLabelMarkup("<b>No configs available</b>")
             missingstr = wx.StaticText(self.pnl)
@@ -218,20 +211,26 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         self.Bind(wx.EVT_MENU, self.exit_clicked, exit_item)
         self.Bind(wx.EVT_MENU, self.about_clicked, about_item)
 
-    def activate_button_clicked(self, event):  # pylint: disable=unused-argument
+    def activate_button_clicked(self, event, conn):  # pylint: disable=unused-argument
         """
         This activates an imported config
         """
-        conn = self.inactive_conns.pop(0)
-        self.num_inactive_conns = len(self.inactive_conns)
+        print(conn.get_id())
         self.client.add_connection_async(conn, False, None, self.add_callback,
                                          None)
+        self.remove_inactive(conn)
 
-    def deactivate_button_clicked(self, event):  # pylint: disable=unused-argument
+    def remove_inactive(self,conn):
+        for i in range(len(self.inactive_conns)):
+            print(i,  self.inactive_conns[i].get_id(), conn.get_id())
+            if self.inactive_conns[i].get_id() == conn.get_id():
+                self.inactive_conns.pop(i)
+
+    def deactivate_button_clicked(self, event, conn):  # pylint: disable=unused-argument
         """
         This deactivates an active config
         """
-        conn = self.active_conns[0]
+        print(conn.get_id())
         self.client.deactivate_connection_async(conn, None, self.de_callback,
                                                 conn)
         conn.get_connection().delete_async(None, None, None)
@@ -248,9 +247,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         except Exception as exception:  # pylint: disable=broad-except
             sys.stderr.write("Error: %s\n" % exception)
         self.active_conns = self.get_wg_aconns()
-        self.num_aconns = len(self.active_conns)
         self.conns = self.get_wg_conns()
-        self.num_conns = len(self.conns)
         self.write_to_sizer()
 
     def add_callback(self, client, result, data):  # pylint: disable=unused-argument
@@ -265,9 +262,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         except Exception as exception:  # pylint: disable=broad-except
             sys.stderr.write("Error: %s\n" % exception)
         self.active_conns = self.get_wg_aconns()
-        self.num_aconns = len(self.active_conns)
         self.conns = self.get_wg_conns()
-        self.num_conns = len(self.conns)
         self.write_to_sizer()
 
     def exit_clicked(self, event):  # pylint: disable=unused-argument
@@ -293,7 +288,6 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
             pathname = file_dialog.GetPath()
             new_conn = self.create_conn_from_file(pathname)
             self.inactive_conns.append(new_conn)
-            self.num_inactive_conns += 1
             self.write_to_sizer()
 
     def get_wg_aconns(self):
