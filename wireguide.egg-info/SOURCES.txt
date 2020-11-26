@@ -1,6 +1,8 @@
+MANIFEST.in
 README.md
 setup.py
 wireguide/__init__.py
+wireguide/logo.png
 wireguide/wireguide
 wireguide.egg-info/PKG-INFO
 wireguide.egg-info/SOURCES.txt

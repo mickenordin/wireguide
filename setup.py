@@ -5,10 +5,11 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="wireguide",
-    version="0.0.1",
+    version="0.0.2",
     author="Mikael Nordin",
     author_email="mik@elnord.in",
     description="A WireGuard GUI for GNU/Linux",
+    include_package_data=True,
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/mickenordin/wireguide",
