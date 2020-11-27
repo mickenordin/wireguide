@@ -23,7 +23,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
     """
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)
-
+        self.SetIcon(wx.Icon(get_logo_path()))
         self.version = "0.0.5"
 
         # Get active conns from NetworkManager
@@ -71,7 +71,12 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>."""
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    ...
+
+    Wireguard ICON by CoreUI is licensed under CC-BY 4.0.
+    <https://creativecommons.org/licenses/by/4.0/> 
+    """
         #wx.MessageBox(about, "About WireGUIde" ,wx.OK | wx.ICON_INFORMATION)
         info = wx.adv.AboutDialogInfo()
         logo = get_logo_path()
@@ -85,7 +90,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         info.SetLicence(lic_text)
         info.AddDeveloper('Mikael Nordin')
         info.AddDocWriter('Mikael Nordin')
-        info.AddArtist('Mikael Nordin')
+        info.AddArtist('<a href="https://coreui.io/">CoreUI</a>')
 
         wx.adv.AboutBox(info)
 
