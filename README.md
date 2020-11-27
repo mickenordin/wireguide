@@ -16,6 +16,7 @@ Thanks to Jan Bodnar of zetcode.com for the valuable tutorial on wxPython dialog
 
 ## Installation
 ```
+sudo apt install python3-wxgtk4.0 network-manager
 pip install wireguide
 ```
 ## Packaging
