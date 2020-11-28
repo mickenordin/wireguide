@@ -20,7 +20,7 @@ You can install using pip:
 sudo apt install python3-wxgtk4.0 network-manager
 pip install wireguide
 ```
-or you can download appimage: [WireGUIde-0.0.6.glibc2.32-x86_64.AppImage](https://github.com/mickenordin/wireguide/releases/download/0.0.6/WireGUIde-0.0.6.glibc2.32-x86_64.AppImage)
+or you can download appimage: [WireGUIde-0.0.7.glibc2.32-x86_64.AppImage](https://github.com/mickenordin/wireguide/releases/download/0.0.7/WireGUIde-0.0.7.glibc2.32-x86_64.AppImage)
 
 ## Packaging
 ![pypi](https://img.shields.io/pypi/v/WireGUIde)
