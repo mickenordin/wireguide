@@ -16,7 +16,7 @@ ingredients:
     - libnm0
     - gir1.2-nm-1.0
 script:
-  - ./usr/bin/pip3 install WireGUIde
+  - ./usr/bin/pip3 install WireGUIde==0.0.6
   - cp ../ke.mic.wireguide.png ./usr/share/icons/hicolor/256x256/
   - cp ../ke.mic.wireguide.png .
   - mkdir -p usr/share/metainfo/ ; cp ../wireguide.appdata.xml usr/share/metainfo/
@@ -33,5 +33,5 @@ script:
   - MimeType=text/x-python3;
   - EOF
   - cp usr/share/applications/ke.mic.wireguide.desktop .
-  - usr/bin/pip3 freeze | grep "wireguide" | cut -d "=" -f 3  >> ../VERSION:0
+  - usr/bin/pip3 freeze | grep "wireguide" | cut -d "=" -f 3  >> ../VERSION
 

@@ -24,7 +24,7 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)
         self.SetIcon(wx.Icon(get_logo_path()))
-        self.version = "0.0.6"
+        self.version = "0.0.7"
 
         # Get active conns from NetworkManager
         self.client = NM.Client.new(None)
