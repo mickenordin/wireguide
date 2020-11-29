@@ -8,30 +8,32 @@ ingredients:
   script:
     - wget -c https://github.com/mickenordin/wireguide/blob/main/wireguide/logo.png -O ke.mic.wireguide.png
     - wget -c https://github.com/mickenordin/wireguide/blob/main/appimage/wireguide.appdata.xml -O wireguide.appdata.xml
+    - wget -c https://github.com/mickenordin/wireguide/blob/main/wireguide/wireguide -O wireguide
   packages:
-    - python3-pip
     - python3-gi
     - python3-wxgtk4.0
     - python3-sip
     - libnm0
     - gir1.2-nm-1.0
 script:
-  - ./usr/bin/pip3 install WireGUIde==0.0.7
   - cp ../ke.mic.wireguide.png ./usr/share/icons/hicolor/256x256/
   - cp ../ke.mic.wireguide.png .
-  - mkdir -p usr/share/metainfo/ ; cp ../wireguide.appdata.xml usr/share/metainfo/
-  - cat > usr/share/applications/ke.mic.wireguide.desktop <<\EOF
+  - mkdir -p usr/share/metainfo/
+  - cp ../wireguide.appdata.xml ./usr/share/metainfo/
+  - cp ../wireguide ./usr/bin/
+  - chmod +x ./usr/bin/wireguide
+  - cat > ./usr/share/applications/ke.mic.wireguide.desktop <<\EOF
   - [Desktop Entry]
   - Type=Application
   - Name=WireGUIde
   - Comment=A GUI for WireGuard
   - Icon=ke.mic.wireguide
-  - Exec=python3 /usr/local/bin/wireguide
+  - Exec=usr/bin/wireguide
   - Terminal=false
   - Categories=Application;
   - Keywords=Python;
   - MimeType=text/x-python3;
   - EOF
   - cp usr/share/applications/ke.mic.wireguide.desktop .
-  - usr/bin/pip3 freeze | grep "wireguide" | cut -d "=" -f 3  >> ../VERSION
+  - grep self.version ../wireguide | grep = | awk '{print $3}' | sed 's/"//g' > ../VERSION
 
