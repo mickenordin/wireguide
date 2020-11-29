@@ -8,7 +8,7 @@ ingredients:
   script:
     - wget -c https://github.com/mickenordin/wireguide/blob/main/wireguide/logo.png -O ke.mic.wireguide.png
     - wget -c https://github.com/mickenordin/wireguide/blob/main/appimage/wireguide.appdata.xml -O wireguide.appdata.xml
-    - wget -c https://github.com/mickenordin/wireguide/blob/main/wireguide/wireguide -O wireguide
+    - wget -c https://raw.githubusercontent.com/mickenordin/wireguide/main/wireguide/wireguide -O wireguide 
   packages:
     - python3-gi
     - python3-wxgtk4.0
@@ -35,5 +35,5 @@ script:
   - MimeType=text/x-python3;
   - EOF
   - cp usr/share/applications/ke.mic.wireguide.desktop .
-  - grep self.version ../wireguide | grep = | awk '{print $3}' | sed 's/"//g' > ../VERSION
+  - echo 0.0.8 > ../VERSION
 
