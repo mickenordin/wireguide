@@ -126,9 +126,21 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
         an object that can be user by NetworkManager
         """
         filename = os.path.basename(pathname)
+        mfile = open(pathname)
+        numpeers = 0
+        wholefile = str()
+        for line in mfile:
+            if '[Peer]' in line:
+                newline = line.replace('[Peer]', '[Peer' + str(numpeers)+ ']')
+                numpeers += 1
+                wholefile += newline
+            else:
+                wholefile += line
+
         try:
             config = configparser.ConfigParser()
-            config.read(pathname)
+            config.read_string(wholefile)
+
             iname = self.get_next_int_name()
             profile = NM.SimpleConnection.new()
             s_con = NM.SettingConnection.new()
@@ -141,11 +153,13 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
             s_wireguard = NM.SettingWireGuard.new()
             s_wireguard.set_property(NM.SETTING_WIREGUARD_PRIVATE_KEY,
                                      config['Interface']['PrivateKey'])
-            s_peer = NM.WireGuardPeer.new()
-            s_peer.set_endpoint(config['Peer']['Endpoint'], False)
-            s_peer.set_public_key(config['Peer']['PublicKey'], False)
-            s_peer.append_allowed_ip(config['Peer']['AllowedIPs'], False)
-            s_wireguard.append_peer(s_peer)
+            # peers
+            for i in range(numpeers):
+                s_peer = NM.WireGuardPeer.new()
+                s_peer.set_endpoint(config['Peer' + str(i)]['Endpoint'], False)
+                s_peer.set_public_key(config['Peer' + str(i)]['PublicKey'], False)
+                s_peer.append_allowed_ip(config['Peer' + str(i)]['AllowedIPs'], False)
+                s_wireguard.append_peer(s_peer)
 
             s_ip4 = NM.SettingIP4Config.new()
             s_ip4_address = NM.IPAddress(AF_INET,
