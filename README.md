@@ -14,13 +14,20 @@ For packaging a debian package you can use these dependencies:
 Thanks to Jan Bodnar of zetcode.com for the valuable tutorial on wxPython dialogs:
 * http://zetcode.com/wxpython/dialogs/
 
+## Prerequisites
+Make sure you are using resolvconf and systemd-resolvd otherwise NetworkManager might empty /etc/resolv.conf when you remove the last tunnel:
+```
+sudo apt install resolvconf
+sudo systemctl restart systemd-resolved.service
+```
+
 ## Installation
 You can install using pip:
 ```
 sudo apt install python3-wxgtk4.0 network-manager
 pip install wireguide
 ```
-or you can download appimage: [WireGUIde-0.0.7.glibc2.32-x86_64.AppImage](https://github.com/mickenordin/wireguide/releases/download/0.0.7/WireGUIde-0.0.7.glibc2.32-x86_64.AppImage)
+or you can download appimage: [WireGUIde-0.0.8.glibc2.32-x86_64.AppImage](https://github.com/mickenordin/wireguide/releases/download/0.0.8/WireGUIde-0.0.8.glibc2.32-x86_64.AppImage)
 
 ## Packaging
 ![pypi](https://img.shields.io/pypi/v/WireGUIde)
