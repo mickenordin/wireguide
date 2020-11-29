@@ -398,7 +398,7 @@ def get_logo_path():
     Try to find a logo
     """
     site_packages = next(p for p in sys.path if 'site-packages' in p)
-    base_path = os.path.dirname(__file__) # 
+    base_path = os.path.dirname(__file__)
     logo_name = "logo.png"
     pipimage = site_packages + "/wireguide/" + logo_name
     appimage = base_path + "/../share/icons/hicolor/256x256/ke.mic.wireguide.png"
