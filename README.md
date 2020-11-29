@@ -14,6 +14,13 @@ For packaging a debian package you can use these dependencies:
 Thanks to Jan Bodnar of zetcode.com for the valuable tutorial on wxPython dialogs:
 * http://zetcode.com/wxpython/dialogs/
 
+## Prerequisites
+Make sure you are using resolvconf and systemd-resolvd otherwise NetworkManager might empty /etc/resolv.conf when you remove the last tunnel:
+```
+sudo apt install resolvconf
+sudo systemctl restart systemd-resolved.service
+```
+
 ## Installation
 You can install using pip:
 ```
