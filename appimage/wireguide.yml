@@ -6,8 +6,8 @@ ingredients:
     - deb http://us.archive.ubuntu.com/ubuntu/ groovy-updates main universe
     - deb http://us.archive.ubuntu.com/ubuntu/ groovy-security main universe
   script:
-    - wget -c https://github.com/mickenordin/wireguide/blob/main/wireguide/logo.png -O ke.mic.wireguide.png
-    - wget -c https://github.com/mickenordin/wireguide/blob/main/appimage/wireguide.appdata.xml -O wireguide.appdata.xml
+    - wget -c https://raw.githubusercontent.com/mickenordin/wireguide/main/wireguide/logo.png -O ke.mic.wireguide.png 
+    - wget -c https://raw.githubusercontent.com/mickenordin/wireguide/main/appimage/wireguide.appdata.xml -O wireguide.appdata.xml 
     - wget -c https://raw.githubusercontent.com/mickenordin/wireguide/main/wireguide/wireguide -O wireguide 
   packages:
     - python3-gi
