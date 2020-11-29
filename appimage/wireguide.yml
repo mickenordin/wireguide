@@ -35,5 +35,5 @@ script:
   - MimeType=text/x-python3;
   - EOF
   - cp usr/share/applications/ke.mic.wireguide.desktop .
-  - echo 0.0.8 > ../VERSION
+  - echo 0.1.0 > ../VERSION
 
