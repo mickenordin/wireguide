@@ -1,5 +1,5 @@
-wireguide (0.2.0-1) unstable; urgency=low
+wireguide (0.2.0) unstable; urgency=low
 
- * Initial release.
+    * Initial Debian packaging.
 
--- Micke Nordin <hej@mic.ke> Thu Dec 17 14:35:39 CET 2020 
+ -- Micke Nordin <hej@mic.ke>  Thu, 17 Dec 2020 14:35:39 +0100

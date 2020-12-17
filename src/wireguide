@@ -76,8 +76,8 @@ class WireFrame(wx.Frame):  # pylint: disable=too-many-ancestors,too-many-instan
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
     ...
 
-    Wireguard ICON by CoreUI is licensed under CC-BY 4.0.
-    <https://creativecommons.org/licenses/by/4.0/> 
+    Wireguard ICON by CoreUI is licensed under CC0 1.0.
+    <https://creativecommons.org/publicdomain/zero/1.0/> 
     """
         #wx.MessageBox(about, "About WireGUIde" ,wx.OK | wx.ICON_INFORMATION)
         info = wx.adv.AboutDialogInfo()
