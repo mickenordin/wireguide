@@ -15,7 +15,9 @@ Thanks to Jan Bodnar of zetcode.com for the valuable tutorial on wxPython dialog
 * http://zetcode.com/wxpython/dialogs/
 
 ## Prerequisites
-Make sure you are using resolvconf and systemd-resolvd otherwise NetworkManager might empty /etc/resolv.conf when you remove the last tunnel:
+WireGUIde requires a fairly recent version of network-manager, and of course wireguard support. For example, while wireguard is available from buster-backports, network-manager for Debian Buster is too old. WireGUIde is known to work on Debian and Ubuntu versions with network-manager >= 1.22.10. That means taht it will work on Debian Bullseye, Ubuntu Focal and Ubuntu Groovy. Other distros have not been tested yet, but should work if the software running is sufficiently new.
+
+Also: make sure you are using resolvconf and systemd-resolvd otherwise NetworkManager might empty /etc/resolv.conf when you remove the last tunnel:
 ```
 sudo apt install resolvconf
 sudo systemctl restart systemd-resolved.service
@@ -28,6 +30,8 @@ sudo apt install python3-wxgtk4.0 network-manager
 pip install wireguide
 ```
 or you can download appimage: [WireGUIde-0.1.0.glibc2.32-x86_64.AppImage](https://github.com/mickenordin/wireguide/releases/download/0.1.0/WireGUIde-0.1.0.glibc2.32-x86_64.AppImage)
+
+NOTICE: In the future, WireGUIde will be distributed as debian and rpm-packages as it has proven difficult to handle dependecies using universal binaries and pip. For now though, pip and the appimage is what is available.
 
 ## Packaging
 ![pypi](https://img.shields.io/pypi/v/WireGUIde)
