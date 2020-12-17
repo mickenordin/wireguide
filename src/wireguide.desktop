@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=WireGUIde
+Comment=WireGUIde is a graphical user interface for WireGuard
+Exec=/usr/bin/wireguide
+Icon=/usr/share/icons/hicolor/256x256/ke.mic.wireguide.png
+Terminal=false
