@@ -36,7 +36,7 @@ rpm-package is generated using alien, please let me know if it does not work for
 32b291e2c419db68bbc9d21127c59626fe9035b0b1071bbc007fb4dc7c415719|[wireguide_0.2.0_amd64.changes](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide_0.2.0_amd64.changes)
 d8ca89905b6b94a3b4d073409ddc27d5b6ffa3e97278b6057d103b76080009ca|[wireguide_0.2.0.dsc](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide_0.2.0.dsc)
 1a5ea92bad68a55628094bccbbf4a6c35a64becccc3f6c9a57373c76f01b0ac6|[wireguide_0.2.0.git](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide_0.2.0.git)
-8eb60ff80350ab24fd753f589bd072de4ae38536e9f6abe8150f054eec527098|[wireguide-0.2.0-1.noarch.rpm](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide-0.2.0-1.noarch.rpm)
+e7d229c8cdfa8a101968ee9047b771d443f15b02bacfdb82901cf3ffe01cca66|[wireguide-0.2.0-1.noarch.rpm](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide-0.2.0-1.noarch.rpm)
 
 ## Screenshots
 ![No config](https://raw.githubusercontent.com/mickenordin/wireguide/main/screenshots/scrot0.png)
