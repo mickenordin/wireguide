@@ -31,7 +31,7 @@ rpm-package is generated using alien, please let me know if it does not work for
 ## sha256sums
 **sha256sum**|**File**
 :-----:|:-----:
-45d7a3be447abc70f9350e876219ab036e6b3313d431aa1e2828cdc76bad47e4|wireguide-0.2.1-1.x86_64.rpm
+0b10445b1cd9f23edac3d8b25ac3a444d332b50ad63dd05c826e71f50c1d0f61|wireguide-0.2.1-1.x86_64.rpm
 1cb81e579f7e2717c5b8901dbc392377cabbdebdeb36d158081b7796a93cbfac|wireguide_0.2.1_all.deb
 e8cb29b5e8a54165e94133324ac90193269c0c5e54e355d6f8e52c8fc404d537|wireguide_0.2.1_amd64.buildinfo
 3f32d95e882c783fd0b8dfa86894fa0a4ba4be8c16e7e90ef7e14b1d5cd31da7|wireguide_0.2.1_amd64.changes
