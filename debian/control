@@ -1,7 +1,7 @@
 Source: wireguide
 Section: net
 Priority: optional
-Maintainer: Micke Nordin <mik@elnord.in>
+Maintainer: Micke Nordin <hej@mic.ke>
 Build-Depends: debhelper (>=10)
 Standards-Version: 4.0.0
 Homepage: https://github.com/mickenordin/wireguide
