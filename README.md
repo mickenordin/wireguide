@@ -1,5 +1,5 @@
 # WireGUIde
-WireGUIde is a graphical user interface for WireGuard: https://www.wireguard.com/
+WireGUIde is a graphical user interface for WireGuard: https://www.wireguard.com/. Using WireGUIde you will be able to easily manage you Wireguard client connections without the need to use the terminal. WireGUIde uses NetworkManager as a backend, so it is compatible with connections set up with nmcli.
 
 It makes use of:
  * libnm (https://developer.gnome.org/libnm/stable/usage.html)
