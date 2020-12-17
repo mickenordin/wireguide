@@ -24,7 +24,7 @@ sudo systemctl restart systemd-resolved.service
 ## Installation
 It is no longer recommended to install using pip or the previous created appimage, since this project uses dependencies that are not easily packaged using universal binaries or python packaging (infact appimages and pip project has been removed). Instead the native debian/rpm package is recommended:
 * [wireguide_0.2.0_all.deb](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide_0.2.0_all.deb)
-* [wireguide-0.2.0-2.noarch.rpm](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide-0.2.0-2.noarch.rpm)
+* [wireguide-0.2.0-2.x86_64.rpm](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide-0.2.0-2.x86_64.rpm)
 
 rpm-package is generated using alien, please let me know if it does not work for you.
 
