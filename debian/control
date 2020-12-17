@@ -1,0 +1,23 @@
+Source: wireguide
+Section: net
+Priority: optional
+Maintainer: Micke Nordin <mik@elnord.in>
+Build-Depends: debhelper (>=10)
+Standards-Version: 4.0.0
+Homepage: https://github.com/mickenordin/wireguide
+
+Package: wireguide
+Section: net
+Priority: optional
+Architecture: all
+Depends:
+    gir1.2-nm-1.0,
+    libnm0,
+    network-manager,
+    python3-wxgtk4.0,
+    wireguard
+Recommends:
+    resolvconf
+
+Essential: no
+Description: WireGUIde is a graphical user interface for WireGuard
