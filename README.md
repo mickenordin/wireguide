@@ -23,20 +23,20 @@ sudo systemctl restart systemd-resolved.service
 
 ## Installation
 It is no longer recommended to install using pip or the previous created appimage, since this project uses dependencies that are not easily packaged using universal binaries or python packaging (infact appimages and pip project has been removed). Instead the native debian/rpm package is recommended:
-* [wireguide_0.2.0_all.deb](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide_0.2.0_all.deb)
-* [wireguide-0.2.0-1.noarch.rpm](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide-0.2.0-1.noarch.rpm)
+* [wireguide_0.2.1_all.deb](https://github.com/mickenordin/wireguide/releases/download/0.2.1/wireguide_0.2.1_all.deb)
+* [wireguide-0.2.1-1.noarch.rpm](https://github.com/mickenordin/wireguide/releases/download/0.2.1/wireguide-0.2.1-1.noarch.rpm)
 
 rpm-package is generated using alien, please let me know if it does not work for you.
 
 ## sha256sums
 **sha256sum**|**File**
 :-----:|:-----:
-6c364077cbe26281dc0abe6b2d7e53b5e5409be87953ad6133a901b8e36d5dba|[wireguide_0.2.0_all.deb](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide_0.2.0_all.deb)
-8662dde8a7f7cfc6d21e3619398a089acbff3662174d493245d7e2e1b8f88dcb|[wireguide_0.2.0_amd64.buildinfo](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide_0.2.0_amd64.buildinfo)
-32b291e2c419db68bbc9d21127c59626fe9035b0b1071bbc007fb4dc7c415719|[wireguide_0.2.0_amd64.changes](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide_0.2.0_amd64.changes)
-d8ca89905b6b94a3b4d073409ddc27d5b6ffa3e97278b6057d103b76080009ca|[wireguide_0.2.0.dsc](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide_0.2.0.dsc)
-1a5ea92bad68a55628094bccbbf4a6c35a64becccc3f6c9a57373c76f01b0ac6|[wireguide_0.2.0.git](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide_0.2.0.git)
-e7d229c8cdfa8a101968ee9047b771d443f15b02bacfdb82901cf3ffe01cca66|[wireguide-0.2.0-1.noarch.rpm](https://github.com/mickenordin/wireguide/releases/download/0.2.0/wireguide-0.2.0-1.noarch.rpm)
+45d7a3be447abc70f9350e876219ab036e6b3313d431aa1e2828cdc76bad47e4|wireguide-0.2.1-1.x86_64.rpm
+1cb81e579f7e2717c5b8901dbc392377cabbdebdeb36d158081b7796a93cbfac|wireguide_0.2.1_all.deb
+e8cb29b5e8a54165e94133324ac90193269c0c5e54e355d6f8e52c8fc404d537|wireguide_0.2.1_amd64.buildinfo
+3f32d95e882c783fd0b8dfa86894fa0a4ba4be8c16e7e90ef7e14b1d5cd31da7|wireguide_0.2.1_amd64.changes
+70459c058ccfa02a3482c1bf79088b712dd72bbdf578507527c69e95981e019b|wireguide_0.2.1.dsc
+328340e76b3c4024863fdbaac0cd0ef5ccdd4e312ce2f739022536ec98fd028e|wireguide_0.2.1.git
 
 ## Screenshots
 ![No config](https://raw.githubusercontent.com/mickenordin/wireguide/main/screenshots/scrot0.png)
