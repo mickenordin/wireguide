@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
-# Verision of wireguide
-VERSION=$(awk -F '"' '/self.version =/ {print $2}' ~/sources/wireguide/src/wireguide)
+# This is where I keep my sources
+BASEDIR=~/sources
+# Version of wireguide
+VERSION=$(awk -F '"' '/self.version =/ {print $2}' ${BASEDIR}/wireguide/src/wireguide)
+
+cd ~/sources
 
 # Convert deb to rpm
-sudo alien -g -r ~/sources/wireguide_${VERSION}_all.deb
+sudo alien -g -r ${BASEDIR}/wireguide_${VERSION}_all.deb
 
 # Remove generated specfile
-sudo rm ~/sources/wireguide-${VERSION}/wireguide-*.spec
+sudo rm ${BASEDIR}/wireguide-${VERSION}/wireguide-*.spec
 
 # Replace with our own
-sed "s/##VERSION##/${VERSION}/" ~/sources/wireguide/rpm/wireguide-TEMPLATE.spec > ~/sources/wireguide-${VERSION}/wireguide-${VERSION}.spec
+sed "s/##VERSION##/${VERSION}/" ${BASEDIR}/wireguide/rpm/wireguide-TEMPLATE.spec | sudo tee ${BASEDIR}/wireguide-${VERSION}/wireguide-${VERSION}.spec
 
 # Change to build dir
-cd ~/sources/wireguide-${VERSION}
+cd wireguide-${VERSION}
 
 # Build rpm
-sudo rpmbuild --buildroot=~/sources/wireguide-${VERSION} -bb wireguide-${VERSION}.spec
+sudo rpmbuild --buildroot=$(pwd) -bb wireguide-${VERSION}.spec
+sudo chown ${USER}:${USER} ${BASEDIR}/wireguide-${VERSION}.noarch.rpm 

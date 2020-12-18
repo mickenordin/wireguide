@@ -9,7 +9,7 @@ Distribution: Fedora
 Group: Converted/net
 
 %define _rpmdir ../
-%define _rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm
+%define _rpmfilename %%{NAME}-%%{VERSION}.noarch.rpm
 %define _unpackaged_files_terminate_build 0
 
 %description
