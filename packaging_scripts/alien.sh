@@ -21,8 +21,10 @@ sed "s/##VERSION##/${VERSION}/" ${BASEDIR}/wireguide/rpm/wireguide-TEMPLATE.spec
 # Change to build dir
 cd wireguide-${VERSION}
 
-# Build rpm
+# Build rpm and put in repo
 cp ${BASEDIR}/wireguide/rpm/macros ~/.rpmmacros
 sudo rpmbuild --buildroot=$(pwd) -bb wireguide-${VERSION}.spec
 sudo chown ${USER}:${USER} ${BASEDIR}/wireguide-${VERSION}.noarch.rpm 
 rpm --addsign ${BASEDIR}/wireguide-${VERSION}.noarch.rpm
+cp ${BASEDIR}/wireguide-${VERSION}.noarch.rpm ${BASEDIR}/repo/rpm/
+createrepo_c ${BASEDIR}/repo/rpm/
