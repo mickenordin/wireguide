@@ -13,7 +13,7 @@ Thanks to CoreUI for providing a free and open source WireGuard Icon:
 * https://github.com/coreui/coreui-icons
 
 ## Prerequisites
-WireGUIde requires a fairly recent version of network-manager, and of course wireguard support. For example, while wireguard is available from buster-backports, network-manager for Debian Buster is too old (1.14.6). WireGUIde is known to work on Debian and Ubuntu versions with network-manager >= 1.22.10. That means that it will work on Debian Bullseye, Ubuntu Focal and Ubuntu Groovy. WireGUIde has also been successfully tested on Fedora 33.
+WireGUIde requires a fairly recent version of network-manager, and of course wireguard support. For example, while wireguard is available from buster-backports, network-manager for Debian Buster is too old (1.14.6). WireGUIde is known to work on Debian, Ubuntu and Fedora versions with network-manager >= 1.22.10. That means that it will work on Debian Bullseye, Ubuntu Focal, Ubuntu Groovy and Fedora 33 or later.
 
 Also: make sure you are using resolvconf and systemd-resolvd otherwise NetworkManager might empty /etc/resolv.conf when you remove the last tunnel:
 ```
@@ -22,17 +22,15 @@ sudo systemctl restart systemd-resolved.service
 ```
 
 ## Installation
-It is no longer recommended to install using pip or the previous created appimage, since this project uses dependencies that are not easily packaged using universal binaries or python packaging (infact appimages and pip project has been removed). Instead the native debian/rpm package is recommended:
-* [wireguide_0.2.1_all.deb](https://github.com/mickenordin/wireguide/releases/download/0.2.1/wireguide_0.2.1_all.deb)
-* [wireguide-0.2.1-1.noarch.rpm](https://github.com/mickenordin/wireguide/releases/download/0.2.1/wireguide-0.2.1-1.noarch.rpm)
+It is no longer recommended to install using pip or the previous created appimage, since this project uses dependencies that are not easily packaged using universal binaries or python packaging (infact appimages and pip project has been removed). Instead the native debian/rpm package is recommended.
 
 rpm-package is generated using alien, please let me know if it does not work for you.
 
 ### DEB
 ```
-wget https://github.com/mickenordin/wireguide/releases/download/0.2.1/wireguide_0.2.1_all.deb
-sudo dpkg -i ./wireguide_0.2.1_all.deb
-sudo apt -f install
+curl http://repo.mic.ke/debian/PUBLIC.KEY | sudo apt-key add -
+curl http://repo.mic.ke/debian/debian-micke-unstable.list | sudo tee /etc/apt/sources.list.d/debian-micke-unstable.list
+sudo apt update && sudo apt install wireguide
 ```
 
 ### RPM
