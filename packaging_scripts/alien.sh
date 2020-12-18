@@ -7,7 +7,7 @@ VERSION=$(awk -F '"' '/self.version =/ {print $2}' ${BASEDIR}/wireguide/src/wire
 cd ${BASEDIR}
 
 # Import signing key
-sudo rpm --import ${BASEDIR}/repo/debian/PUBLIC.KEY 
+sudo rpm --import ${BASEDIR}/repo/PUBLIC.KEY 
 
 # Convert deb to rpm
 sudo alien -g -r ${BASEDIR}/wireguide_${VERSION}_all.deb
