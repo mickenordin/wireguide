@@ -4,7 +4,10 @@ BASEDIR=~/sources
 # Version of wireguide
 VERSION=$(awk -F '"' '/self.version =/ {print $2}' ${BASEDIR}/wireguide/src/wireguide)
 
-cd ~/sources
+cd ${BASEDIR}
+
+# Import signing key
+sudo rpm --import ${BASEDIR}/repo/debian/PUBLIC.KEY 
 
 # Convert deb to rpm
 sudo alien -g -r ${BASEDIR}/wireguide_${VERSION}_all.deb
@@ -19,5 +22,7 @@ sed "s/##VERSION##/${VERSION}/" ${BASEDIR}/wireguide/rpm/wireguide-TEMPLATE.spec
 cd wireguide-${VERSION}
 
 # Build rpm
+cp ${BASEDIR}/wireguide/rpm/macros ~/.rpmmacros
 sudo rpmbuild --buildroot=$(pwd) -bb wireguide-${VERSION}.spec
 sudo chown ${USER}:${USER} ${BASEDIR}/wireguide-${VERSION}.noarch.rpm 
+rpm --addsign ${BASEDIR}/wireguide-${VERSION}.noarch.rpm

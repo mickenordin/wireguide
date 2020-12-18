@@ -4,10 +4,10 @@ Version: ##VERSION##
 Release: 1
 Requires: python3-wxpython4
 Summary: WireGUIde is a graphical user interface for WireGuard
-License: GPL3+
+License: GPLv3+ 
 Distribution: Fedora
-Group: Converted/net
 
+%define _binary_filedigest_algorithm 2
 %define _rpmdir ../
 %define _rpmfilename %%{NAME}-%%{VERSION}.noarch.rpm
 %define _unpackaged_files_terminate_build 0
