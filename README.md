@@ -28,6 +28,18 @@ It is no longer recommended to install using pip or the previous created appimag
 
 rpm-package is generated using alien, please let me know if it does not work for you.
 
+### DEB
+```
+wget https://github.com/mickenordin/wireguide/releases/download/0.2.1/wireguide_0.2.1_all.deb
+sudo dpkg -i ./wireguide_0.2.1_all.deb
+sudo apt -f install
+```
+
+### RPM
+```
+sudo dnf install https://github.com/mickenordin/wireguide/releases/download/0.2.1/wireguide-0.2.1-1.noarch.rpm
+```
+
 ## sha256sums
 **sha256sum**|**File**
 :-----:|:-----:
