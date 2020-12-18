@@ -28,16 +28,16 @@ rpm-package is generated using alien, please let me know if it does not work for
 
 ### DEB
 ```
-curl http://repo.mic.ke/PUBLIC.KEY | sudo apt-key add -
-curl http://repo.mic.ke/debian/debian-micke-unstable.list | sudo tee /etc/apt/sources.list.d/debian-micke-unstable.list
+curl https://repo.mic.ke/PUBLIC.KEY | sudo apt-key add -
+curl https://repo.mic.ke/debian/debian-micke-unstable.list | sudo tee /etc/apt/sources.list.d/debian-micke-unstable.list
 sudo apt update && sudo apt install wireguide
 ```
 
 ### RPM
 ```
-wget http://repo.mic.ke/PUBLIC.KEY
+wget https://repo.mic.ke/PUBLIC.KEY
 sudo rpm --import PUBLIC.KEY
-sudo dnf config-manager --add-repo http://repo.mic.ke/rpm/rpm-micke.repo
+sudo dnf config-manager --add-repo https://repo.mic.ke/rpm/rpm-micke.repo
 sudo dnf install wireguide
 ```
 
